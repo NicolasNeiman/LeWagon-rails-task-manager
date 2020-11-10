@@ -12,13 +12,27 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.create(task_params)
+    @task = Task.create(task_params_create)
+    redirect_to tasks_path
+  end
+
+  def edit
+    @task = Task.find(params[:id])
+  end
+
+  def update
+    @task = Task.find(params[:id])
+    @task.update(task_params_update)
     redirect_to tasks_path
   end
 
   private
 
-  def task_params
+  def task_params_create
     params.require(:task).permit(:title, :details)
+  end
+
+  def task_params_update
+    params.require(:task).permit(:title, :details, :completed)
   end
 end
